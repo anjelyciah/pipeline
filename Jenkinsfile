@@ -1,10 +1,6 @@
- pipeline { 
+pipeline { 
   agent { 
-     triggers { 
-      pollSCM('* * * * *') 
-  } 
     kubernetes { 
-{
       // this label will be the prefix of the generated pod's name 
       label 'jenkins-agent-my-app' 
       yaml """ 
@@ -22,7 +18,12 @@ spec:
       tty: true 
 """ 
     } 
-  } 
+  }
+
+  triggers { 
+    pollSCM('* * * * *') 
+  }
+
   stages { 
     stage('Test python') { 
       steps { 
@@ -33,5 +34,4 @@ spec:
       } 
     } 
   } 
-} 
 }
